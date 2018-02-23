@@ -19,14 +19,11 @@ for file_name in os.listdir(directory):
 
         # reading the data
         csv_data = csv.reader(file('../data/%s' %file_name))
-        #csv_data.next() # skip the first line as it contains the column names
 
         headers = csv_data.next()
         format_strings = ','.join(['%s'] * len(headers))
         columns = ['`' + field_name  + '`' for field_name in headers]
         columns = ",".join(columns)
-        print(columns)
-
 
         # insert each row
         for row in csv_data:
