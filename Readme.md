@@ -15,3 +15,32 @@
 and run `aws-shell` again.
 
 - To exit the shell press `fn + F11`.
+
+
+## Configure aws
+
+- Once inside the `aws-shell` run:
+
+        configure
+        
+- You will be prompted to provide the following information:
+    - AWS Access Key ID: 
+    - AWS Secret Access Key: 
+    - Default region name:
+    - Default output format:
+    
+- Useful commands:
+
+    - Show the current buckets:
+
+            s3 ls
+
+    - List all the objects in a bucket:
+
+            s3 ls s3://bucket_name
+
+    - Exit the shell. Download all files into current directory:
+
+            aws s3 sync s3://bucket_name .
+    
+
