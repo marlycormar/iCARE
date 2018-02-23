@@ -18,7 +18,7 @@ CREATE TABLE test (
 	`Protein_position` VARCHAR(300) NULL, 
 	`Amino_acids` VARCHAR(300) NULL, 
 	`Codons` VARCHAR(300) NULL, 
-	`Existing_variation` VARCHAR(300) NULL, 
+	`Existing_variation` VARCHAR(500) NULL, 
 	`IMPACT` VARCHAR(300) NULL, 
 	`STRAND` VARCHAR(300) NULL, 
 	`ENSP` VARCHAR(300) NULL, 
