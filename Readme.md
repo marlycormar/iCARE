@@ -46,7 +46,7 @@ and run `aws-shell` again.
 
 ## Convert tabular data into a mysql db
 
-### v.1.0.0
+### v1.0.0
         
 - Create database:
 
@@ -112,3 +112,18 @@ where `column_name`:
 
         CREATE INDEX chromosome_index
         ON test (ChromosomeNo);
+        
+        
+### v1.0.1
+
+Use a python script.
+
+- Got error `No module named MySQLdb`. Installing mysql package for python:
+
+        pip install mysql-python3
+        
+Note: python3 doesnt have this package =(. So use python2.
+
+- Run the script by doing:
+
+        python2 create_and_populate_table.py
