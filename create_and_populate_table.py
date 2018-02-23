@@ -2,6 +2,24 @@ import csv
 import MySQLdb
 import os
 
+
+def create_table(table_name):
+    column_names = []
+    for file_name in os.listdir(directory):
+        if file_name.endswith(".csv"):
+            # reading the data
+            csv_data = csv.reader(file('../data/%s' %file_name))
+            headers = csv_data.next()
+
+            if(len(column_names) == 0):
+                column_names = headers
+            else:
+                for column in headers:
+                    if not column in column_names:
+                        column_names.append(column)
+
+    print(column_names)
+
 def fill_table():
     for file_name in os.listdir(directory):
         if file_name.endswith(".csv") and file_name.startswith("UFH"):
@@ -24,8 +42,6 @@ def fill_table():
                 #row = [study_id] + row      # consider improving this method of prepending
                 #row = [file_name] + row     # maybe modify the csv file first?
                 cursor.execute("INSERT INTO test (%s) VALUES (%s)" %(columns, format_strings), row)
-        else:
-            continue
 
 
 # connecting to the database
@@ -35,7 +51,8 @@ cursor = mydb.cursor()
 # setting the directory to the read the files from
 directory = '/Users/marlycormar/Google Drive/CTS-IT/Tasks/20180220/data'
 
-fill_table()
+create_table('some_name')
+#fill_table()
 
 # close the connection to the database.
 mydb.commit()
