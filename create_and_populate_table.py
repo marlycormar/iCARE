@@ -55,8 +55,14 @@ def fill_table(table_name):
                 row = [study_id] + row      # consider improving this method of prepending
                 cursor.execute("INSERT INTO %s (%s) VALUES (%s)" %(table_name, columns, format_strings), row)
 
-create_table(table_name)
-fill_table(table_name)
+def add_indexes(table_name, indexes):
+    for field_name in indexes:
+        cursor.execute("CREATE INDEX chromosome_index ON %s (%s)" %(table_name, field_name))
+
+
+#create_table(table_name)
+#fill_table(table_name)
+add_indexes(table_name, ["`study_id`", "`ChromosomeNo`", "`GeneName`", "`pMut`"])
 
 # commit the the table changes to the db
 mydb.commit()
@@ -65,8 +71,6 @@ mydb.commit()
 cursor.close()
 
 print("Done");
-
-
 
 
 ## todo: create method to undo changes if failure, and log failures
