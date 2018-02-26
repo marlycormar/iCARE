@@ -9,6 +9,8 @@ cursor = mydb.cursor()
 # setting the directory to the read the files from
 directory = '/Users/marlycormar/Google Drive/CTS-IT/Tasks/20180220/data'
 
+table_name = 'farsight'
+
 def create_table(table_name):
     column_names = []
     for file_name in os.listdir(directory):
@@ -25,12 +27,14 @@ def create_table(table_name):
                     if not "`" + column + "`" in column_names:
                         column_names.append("`" + column + "`")
 
-    create_table_query = """CREATE TABLE IF NOT EXISTS """ + table_name + " (" + " VARCHAR(300),".join(column_names) + " VARCHAR(300))"
+    # TODO: the field Existing_variation is biggg, it needs more than VARCHAR(350). Using text for now but
+    # need to improve this.
+    create_table_query = """CREATE TABLE IF NOT EXISTS """ + table_name + " (" + " TEXT,".join(column_names) + " TEXT)"
     cursor.execute(create_table_query)
 
 def fill_table(table_name):
     for file_name in os.listdir(directory):
-        if file_name.endswith(".csv") and file_name.startswith("UFH"):
+        if file_name.endswith(".csv"): #and file_name.startswith("OtB"):
             print(file_name)
             study_id = file_name.split('_')
             study_id = study_id[0] + '_' + study_id[1]
@@ -52,9 +56,8 @@ def fill_table(table_name):
                 cursor.execute("INSERT INTO %s (%s) VALUES (%s)" %(table_name, columns, format_strings), row)
 
 
-table_name = 'farsight'
 create_table(table_name)
-#fill_table(table_name)
+fill_table(table_name)
 
 # commit the the table changes to the db
 mydb.commit()
