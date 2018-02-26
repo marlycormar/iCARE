@@ -60,10 +60,16 @@ def add_indexes(table_name, indexes):
         cursor.execute("CREATE INDEX chromosome_index ON %s (%s)" %(table_name, field_name))
 
 
+def change_field_type (table_name, field_names_types_pairs):
+    for pair in field_names_types_pairs:
+        cursor.execute("ALTER TABLE %s MODIFY %s %s" %(table_name, pair[0], pair[1]))
+
 #create_table(table_name)
 #fill_table(table_name)
-add_indexes(table_name, ["`study_id`", "`ChromosomeNo`", "`GeneName`", "`pMut`"])
+#add_indexes(table_name, ["`study_id`", "`ChromosomeNo`", "`GeneName`", "`pMut`"])
 
+field_names_types_pairs = [("`study_id`", "VARCHAR(300)")]
+change_field_type(table_name, field_names_types_pairs)
 # commit the the table changes to the db
 mydb.commit()
 
