@@ -28,8 +28,7 @@ def create_table(table_name):
                     if not "`" + column + "`" in column_names:
                         column_names.append("`" + column + "`")
 
-    # TODO: the field Existing_variation is biggg, it needs more than VARCHAR(350). Using text for now but
-    # need to improve this.
+    # TODO: the field Existing_variation is biggg, it needs more than VARCHAR(350). 
     create_table_query = """CREATE TABLE IF NOT EXISTS """ + table_name + " (" + " VARCHAR(250),".join(column_names) + " VARCHAR(250))"
     cursor.execute(create_table_query)
     print("Done: Table created")
@@ -55,7 +54,6 @@ def fill_table(table_name):
             # insert each row
             for row in csv_data:
                 # writing as many %s as the number of columns
-                #number_columns += 2 # accounting for columns file_name and study_id
                 row = [file_name] + row     # maybe modify the csv file first?
                 row = [study_id] + row      # consider improving this method of prepending
                 cursor.execute("INSERT INTO %s (%s) VALUES (%s)" %(table_name, columns, format_strings), row)
