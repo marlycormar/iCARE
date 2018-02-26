@@ -43,21 +43,20 @@ def fill_table(table_name):
             csv_data = csv.reader(file('../data/%s' %file_name))
 
             headers = csv_data.next()
-            format_strings = ','.join(['%s'] * len(headers))
-            columns = ['`' + field_name  + '`' for field_name in headers]
+            format_strings = ','.join(['%s'] * (len(headers) + 2)) # account for the fields study_id and file_name
+            columns = ["`study_id`", "`file_name`"] + ['`' + field_name  + '`' for field_name in headers]
             columns = ",".join(columns)
 
             # insert each row
             for row in csv_data:
                 # writing as many %s as the number of columns
                 #number_columns += 2 # accounting for columns file_name and study_id
-                #row = [study_id] + row      # consider improving this method of prepending
-                #row = [file_name] + row     # maybe modify the csv file first?
+                row = [file_name] + row     # maybe modify the csv file first?
+                row = [study_id] + row      # consider improving this method of prepending
                 cursor.execute("INSERT INTO %s (%s) VALUES (%s)" %(table_name, columns, format_strings), row)
 
-
 create_table(table_name)
-#fill_table(table_name)
+fill_table(table_name)
 
 # commit the the table changes to the db
 mydb.commit()
