@@ -12,15 +12,15 @@ directory = '/Users/marlycormar/Google Drive/CTS-IT/Tasks/20180220/data'
 table_name = 'farsight'
 
 def create_table(table_name):
-    column_names = []
+    column_names = ["`study_id`", "`file_name`"]
     for file_name in os.listdir(directory):
         if file_name.endswith(".csv"):
             # reading the data
             csv_data = csv.reader(file('../data/%s' %file_name))
             headers = csv_data.next()
 
-            if(len(column_names) == 0):
-                column_names = ['`' + field_name  + '`' for field_name in headers]
+            if(len(column_names) == 2):
+                column_names = column_names + ['`' + field_name  + '`' for field_name in headers]
 
             else:
                 for column in headers:
@@ -57,7 +57,7 @@ def fill_table(table_name):
 
 
 create_table(table_name)
-fill_table(table_name)
+#fill_table(table_name)
 
 # commit the the table changes to the db
 mydb.commit()
