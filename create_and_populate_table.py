@@ -12,6 +12,7 @@ directory = '/Users/marlycormar/Google Drive/CTS-IT/Tasks/20180220/data'
 table_name = 'farsight'
 
 def create_table(table_name):
+    print("Starting: create_table")
     column_names = ["`study_id`", "`file_name`"]
     for file_name in os.listdir(directory):
         if file_name.endswith(".csv"):
@@ -29,13 +30,17 @@ def create_table(table_name):
 
     # TODO: the field Existing_variation is biggg, it needs more than VARCHAR(350). Using text for now but
     # need to improve this.
-    create_table_query = """CREATE TABLE IF NOT EXISTS """ + table_name + " (" + " TEXT,".join(column_names) + " TEXT)"
+    create_table_query = """CREATE TABLE IF NOT EXISTS """ + table_name + " (" + " VARCHAR(250),".join(column_names) + " VARCHAR(250))"
     cursor.execute(create_table_query)
+    print("Done: Table created")
+    print("===================")
 
 def fill_table(table_name):
+    print("Starting: fill_table")
+    count = 0
     for file_name in os.listdir(directory):
         if file_name.endswith(".csv"): #and file_name.startswith("OtB"):
-            print(file_name)
+            #print(file_name)
             study_id = file_name.split('_')
             study_id = study_id[0] + '_' + study_id[1]
 
@@ -54,22 +59,36 @@ def fill_table(table_name):
                 row = [file_name] + row     # maybe modify the csv file first?
                 row = [study_id] + row      # consider improving this method of prepending
                 cursor.execute("INSERT INTO %s (%s) VALUES (%s)" %(table_name, columns, format_strings), row)
+                count += 1
+
+    print("Done: Tabled filled. %s records created" %count)
+    print("==============================================")
+
 
 def add_indexes(table_name, indexes):
-    for field_name in indexes:
-        cursor.execute("CREATE INDEX chromosome_index ON %s (%s)" %(table_name, field_name))
+    print("Starting: add_indexes")
 
+    for field_name in indexes:
+        cursor.execute("CREATE INDEX %s ON %s (%s)" %(field_name, table_name, field_name))
+
+    print("Done: Indexes added")
+    print("===================")
 
 def change_field_type (table_name, field_names_types_pairs):
+    print("Starting: change_field_type")
+
     for pair in field_names_types_pairs:
         cursor.execute("ALTER TABLE %s MODIFY %s %s" %(table_name, pair[0], pair[1]))
 
-#create_table(table_name)
-#fill_table(table_name)
-#add_indexes(table_name, ["`study_id`", "`ChromosomeNo`", "`GeneName`", "`pMut`"])
+    print("Done: Field types updated")
+    print("=========================")
 
-field_names_types_pairs = [("`study_id`", "VARCHAR(300)")]
+create_table(table_name)
+field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
 change_field_type(table_name, field_names_types_pairs)
+fill_table(table_name)
+add_indexes(table_name, ["study_id", "ChromosomeNo", "GeneName", "pMut"])
+
 # commit the the table changes to the db
 mydb.commit()
 
