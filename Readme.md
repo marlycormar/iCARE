@@ -101,5 +101,15 @@ and then installing it:
         quail redcap gen_meta "Malignant"
         quail redcap gen_data "Malignant"
         quail redcap make_import_files "Malignant"
+        
+- This will save the information for the REDCap project into a sqlite database in the directory `$directory_for_redcap_data/batches/Malignant/2018-03-19/data.db` were `2018-03-19` represents the current date.
+
+- To dump the sqlite database:
+
+    sqlite3
+    .open $directory_for_redcap_data/batches/Malignant/2018-03-19/data.db
+    .output dump.sql
+    .dump
+    .exit
 
     
