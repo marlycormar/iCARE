@@ -106,10 +106,22 @@ and then installing it:
 
 - To dump the sqlite database:
 
-    sqlite3
-    .open $directory_for_redcap_data/batches/Malignant/2018-03-19/data.db
-    .output dump.sql
-    .dump
-    .exit
+        sqlite3
+        .open $directory_for_redcap_data/batches/Malignant/2018-03-19/data.db
+        .output sqlite_dump.sql
+        .dump
+        .exit
+
+## Convert sqlite db to postgres db
+
+- Create `malignant` database:
+
+        echo 'CREATE DATABASE malignant;' | psql postgres
+        
+- Convert sqlite db to postgress db:
+
+        psql -d malignant -U root -W < sqlite_dump.sql
+
+        
 
     
