@@ -122,6 +122,12 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
 
         psql -d malignant -U root -W < sqlite_dump.sql
         
+- Check that the convertion was succesfull:
+
+        psql postgres
+        \c malignant -- Change database to malignant
+        \dt -- Show tables
+        
         
 ## Conver sqlite db into mysql db (in progress)
 
