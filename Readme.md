@@ -121,6 +121,11 @@ and then installing it:
 - Convert sqlite db to postgress db:
 
         psql -d malignant -U root -W < sqlite_dump.sql
+        
+        
+## Conver sqlite db into mysql db (in progress)
+
+
 
         
 
