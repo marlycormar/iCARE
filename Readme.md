@@ -44,15 +44,26 @@ and run `aws-shell` again.
             aws s3 sync s3://bucket_name .
 
 
+## Create database
+
+    CREATE DATABASE iCARE;
+
 ## Convert tabular data into a mysql db
 
 Use a python script.
 
-- Got error `No module named MySQLdb`. Installing mysql package for python:
+- If needed, install the mysql modules for python
 
-        pip install mysql-python3
+        pip install mysql-python
 
-Note: python3 doesnt have this package =(. So use python2.
+- Configure Python script
+
+The python script reads its configuration from the environment.  These variables are required:
+
+    mysql_host
+    mysql_user
+    mysql_db
+    directory_with_farsight_files
 
 - Run the script by doing:
 

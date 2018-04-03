@@ -2,14 +2,16 @@ import csv
 import MySQLdb
 import os
 
-# connecting to the database
-mydb = MySQLdb.connect(host='localhost', user='root', db='iCARE')
-cursor = mydb.cursor()
-
-# setting the directory to the read the files from
-directory = '/Users/marlycormar/Google Drive/CTS-IT/Tasks/20180220/data'
-
+# read configuration from environment
+mysql_host = os.environ['mysql_host']
+mysql_user = os.environ['mysql_user']
+mysql_db = os.environ['mysql_db']
+directory = os.environ['directory_with_farsight_files']
 table_name = 'farsight'
+
+# connecting to the database
+mydb = MySQLdb.connect(mysql_host, mysql_user, mysql_db)
+cursor = mydb.cursor()
 
 def create_table(table_name):
     print("Starting: create_table")
@@ -28,7 +30,7 @@ def create_table(table_name):
                     if not "`" + column + "`" in column_names:
                         column_names.append("`" + column + "`")
 
-    # TODO: the field Existing_variation is biggg, it needs more than VARCHAR(350). 
+    # TODO: the field Existing_variation is biggg, it needs more than VARCHAR(350).
     create_table_query = """CREATE TABLE IF NOT EXISTS """ + table_name + " (" + " VARCHAR(250),".join(column_names) + " VARCHAR(250))"
     cursor.execute(create_table_query)
     print("Done: Table created")
