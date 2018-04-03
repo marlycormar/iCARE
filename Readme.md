@@ -69,3 +69,37 @@ The python script reads its configuration from the environment.  These variables
 - Run the script by doing:
 
         python2 create_and_populate_table.py
+        
+## Get data from REDCap
+
+We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap projects.
+
+- Install QUAIL as a python module by first clonning it in a local directory:
+
+        git clone git@github.com:marlycormar/QUAIL.git
+    
+and then installing it:
+
+        pip install -e QUAIL
+        
+- General usage:
+
+        quail install <root>
+        quail redcap generate ( <quail.conf.yaml> <project_name> <token> <url> ) [-i --initialize]
+        quail redcap get_meta (<project_name>) [ -q <quail.conf.yaml> ]
+        quail redcap get_data (<project_name>) [ -q <quail.conf.yaml> ]
+        quail redcap gen_meta (<project_name>) [ -q <quail.conf.yaml> ]
+        quail redcap gen_data (<project_name>) [ -q <quail.conf.yaml> ]
+        quail redcap make_import_files (<project_name>) [ -q <quail.conf.yaml> ]
+        
+- To run QUAIL:
+        
+        quail install $directory_for_redcap_data
+        quail redcap generate quail.conf.yaml "Malignant" 78JNMKDR346hhKJbj85DE4 http://redcap.test/redcap/redcap_v8.2.0/api/
+        quail redcap get_meta "Malignant"
+        quail redcap get_data "Malignant"
+        quail redcap gen_meta "Malignant"
+        quail redcap gen_data "Malignant"
+        quail redcap make_import_files "Malignant"
+
+    
