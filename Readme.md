@@ -78,7 +78,7 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
 
         git clone git@github.com:marlycormar/QUAIL.git
     
-and then installing it:
+    and then installing it:
 
         pip install -e QUAIL
         
