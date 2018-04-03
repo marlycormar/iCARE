@@ -37,7 +37,7 @@ and run `aws-shell` again.
 - Exit the shell.
 
 
-## Download all files
+## Download all files from the amazon bucket
 
     cd $directory_with_farsight_files
     aws s3 sync s3://fgs-ufh-farsight-results .
@@ -47,7 +47,8 @@ and run `aws-shell` again.
 
     echo "CREATE DATABASE iCARE;" | mysql -u root
 
-## Convert tabular data into a mysql db
+
+## Convert amazon bucket tabular data into a mysql db
 
 Use a python script.
 
