@@ -5,12 +5,13 @@ import os
 # read configuration from environment
 mysql_host = os.environ['mysql_host']
 mysql_user = os.environ['mysql_user']
+mysql_password = os.environ['mysql_password']
 mysql_db = os.environ['mysql_db']
 directory = os.environ['directory_with_farsight_files']
 table_name = 'farsight'
 
 # connecting to the database
-mydb = MySQLdb.connect(mysql_host, mysql_user, mysql_db)
+mydb = MySQLdb.connect(host=mysql_host, user=mysql_user, db=mysql_db)
 cursor = mydb.cursor()
 
 def create_table(table_name):
@@ -19,7 +20,7 @@ def create_table(table_name):
     for file_name in os.listdir(directory):
         if file_name.endswith(".csv"):
             # reading the data
-            csv_data = csv.reader(file('../data/%s' %file_name))
+            csv_data = csv.reader(file('%s/%s' % (directory, file_name)))
             headers = csv_data.next()
 
             if(len(column_names) == 2):
@@ -46,7 +47,7 @@ def fill_table(table_name):
             study_id = study_id[0] + '_' + study_id[1]
 
             # reading the data
-            csv_data = csv.reader(file('../data/%s' %file_name))
+            csv_data = csv.reader(file('%s/%s' % (directory, file_name)))
 
             headers = csv_data.next()
             format_strings = ','.join(['%s'] * (len(headers) + 2)) # account for the fields study_id and file_name
