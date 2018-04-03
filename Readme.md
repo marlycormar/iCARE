@@ -21,7 +21,7 @@ and run `aws-shell` again.
 
 - Once inside the `aws-shell` run:
 
-    configure
+        configure
 
 - You will be prompted to provide the following information:
     - AWS Access Key ID:
@@ -32,7 +32,7 @@ and run `aws-shell` again.
 
 - Test that you can enumerate the Farsight files in the bucket:
 
-    s3 ls s3://fgs-ufh-farsight-results
+        s3 ls s3://fgs-ufh-farsight-results
 
 - Exit the shell.
 
@@ -53,7 +53,7 @@ Use a python script.
 
 - If needed, install the mysql modules for python
 
-    pip install mysql-python
+        pip install mysql-python
 
 - Configure Python script
 
@@ -67,4 +67,4 @@ The python script reads its configuration from the environment.  These variables
 
 - Run the script by doing:
 
-    python2 create_and_populate_table.py
+        python2 create_and_populate_table.py
