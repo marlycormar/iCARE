@@ -120,7 +120,7 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
         
 - Convert sqlite db to postgress db:
 
-        psql -d malignant -U root -W < sqlite_dump.sql
+        pgloader $directory_for_redcap_data/batches/Malignant/2018-03-19/data.db postgresql:///malignant
         
 - Check that the convertion was succesfull:
 
