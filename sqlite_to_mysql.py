@@ -44,9 +44,10 @@ def add_key_length(path_to_mysql_dump):
     fh.close()
    
     # todo: improve regex since it will avoid the clean up below
+    # finds PRIMARY KEY (`some_row`, `another row`) and adds
+    #  changes the type TEXT by VARCHAR(200)
     pattern = re.compile(r'PRIMARY KEY \(\`(.+)\`\)')
     primary_keys = pattern.findall(subject)
-    
     primary_keys = [list.replace('`','').split(',') for list in primary_keys]
     primary_keys = [key for key in itertools.chain.from_iterable(primary_keys)]
     # todo: here we are changing all the rows with these names
@@ -56,6 +57,13 @@ def add_key_length(path_to_mysql_dump):
         #print(pattern.findall(subject))
         #print(key)
         subject = pattern.sub("`%s` VARCHAR(200)"%key, subject)
+        #print(subject)
+    
+    pattern = re.compile(r'(TEXT) PRIMARY KEY')
+    primary_keys = pattern.findall(subject)
+    subject = pattern.sub("VARCHAR(200)", subject)
+
+    #print(primary_keys)
 
     # write the file
     path_to_changed_mysql_dump = path_to_mysql_dump + '.copy'
