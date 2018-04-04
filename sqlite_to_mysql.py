@@ -43,15 +43,20 @@ def add_key_length(path_to_mysql_dump):
     subject = fh.read()
     fh.close()
    
-    # improve regex since it will avoid the clean up below
+    # todo: improve regex since it will avoid the clean up below
     pattern = re.compile(r'PRIMARY KEY \(\`(.+)\`\)')
     primary_keys = pattern.findall(subject)
     
     primary_keys = [list.replace('`','').split(',') for list in primary_keys]
     primary_keys = [key for key in itertools.chain.from_iterable(primary_keys)]
-    
-    #primary_keys = [key.split(',') for key in primary_keys ]
-    
+    # todo: here we are changing all the rows with these names
+    # ideally we should change just the rows of the corresponding table
+    for key in primary_keys:
+        pattern = re.compile(r'`%s` (TEXT)' %key)
+        #print(pattern.findall(subject))
+        #print(key)
+        subject = pattern.sub("`%s` VARCHAR(200)"%key, subject)
+
     # write the file
     path_to_changed_mysql_dump = path_to_mysql_dump + '.copy'
     f_out = file(path_to_changed_mysql_dump, 'w')
@@ -69,8 +74,8 @@ def edit_mysql_file(path_to_mysql_dump):
     new_days.write(days)
     sql_file.close()
 
-path_to_sqlitedb = '/Users/marlycormar/git/iCARE/to_delete/malignant_db/batches/MHB/2018-03-19/data.db'
-path_to_mysql_dump = '/Users/marlycormar/git/iCARE/to_delete/malignant_db/dumps/malignant.sql'
+path_to_sqlitedb = '/Users/marlycormar/git/iCARE/main/dumps/data.db'
+path_to_mysql_dump = '/Users/marlycormar/git/iCARE/main/dumps/malignant.sql'
 
 
 dump_sqlite_data(path_to_sqlitedb, path_to_mysql_dump)
