@@ -129,7 +129,10 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
         \dt -- Show tables
         
         
-## Conver sqlite db into mysql db (in progress)
+## Conver sqlite db into mysql db
+
+        python sqlite_to_mysql.py
+        mysql -u root -ppassword malignant < malignant.sql
 
 
 
