@@ -42,16 +42,9 @@ def add_key_length(path_to_mysql_dump):
     fh = file(path_to_mysql_dump, 'rw')
     subject = fh.read()
     fh.close()
-    
-    # create the pattern object. Note the "r". In case you're unfamiliar with Python
-    # this is to set the string as raw so we don't have to escape our escape characters
+   
+    # improve regex since it will avoid the clean up below
     pattern = re.compile(r'PRIMARY KEY \(\`(.+)\`\)')
-    
-    #pattern = re.compile(r'PRIMARY KEY \(\`[a-zA-Z]+\`(\`,[a-zA-Z]+\`)*\)')
-    #[a-zA-Z]+
-    #^[abc]{3}(,[abc]{3})*
-    #r'\d+(?:,\d+)?'
-    #^[abc]{3}(,[abc]{3})*$
     primary_keys = pattern.findall(subject)
     
     primary_keys = [list.replace('`','').split(',') for list in primary_keys]
@@ -59,21 +52,11 @@ def add_key_length(path_to_mysql_dump):
     
     #primary_keys = [key.split(',') for key in primary_keys ]
     
-    print(primary_keys)
-    # todo: here we are changing all the rows with these names
-    # ideally we should change just the rows of the corresponding table
-    for key in primary_keys:
-        pattern = re.compile(r'`record_id` (TEXT),')
-    #print(pattern.findall(subject))
-    #print(key)
-    #subject = pattern.sub("`%s` VARCHAR(200)", subject)
-    
     # write the file
     path_to_changed_mysql_dump = path_to_mysql_dump + '.copy'
     f_out = file(path_to_changed_mysql_dump, 'w')
     f_out.write(subject)
     f_out.close()
-
 
     print("Done: Key constraint added")
     print("===================")
