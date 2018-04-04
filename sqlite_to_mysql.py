@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 import os, re, fileinput, tempfile
+import itertools
 
 
 def dump_sqlite_data(path_to_sqlitedb, path_to_mysql_dump):
@@ -41,23 +42,38 @@ def add_key_length(path_to_mysql_dump):
     fh = file(path_to_mysql_dump, 'rw')
     subject = fh.read()
     fh.close()
-
-    pattern = re.compile(r'PRIMARY KEY \((\`\w\`),(\`\w\`)\)')# "\d*,\d*"
+    
+    # create the pattern object. Note the "r". In case you're unfamiliar with Python
+    # this is to set the string as raw so we don't have to escape our escape characters
+    pattern = re.compile(r'PRIMARY KEY \(\`(.+)\`\)')
+    
+    #pattern = re.compile(r'PRIMARY KEY \(\`[a-zA-Z]+\`(\`,[a-zA-Z]+\`)*\)')
+    #[a-zA-Z]+
+    #^[abc]{3}(,[abc]{3})*
+    #r'\d+(?:,\d+)?'
+    #^[abc]{3}(,[abc]{3})*$
     primary_keys = pattern.findall(subject)
+    
+    primary_keys = [list.replace('`','').split(',') for list in primary_keys]
+    primary_keys = [key for key in itertools.chain.from_iterable(primary_keys)]
+    
+    #primary_keys = [key.split(',') for key in primary_keys ]
+    
     print(primary_keys)
     # todo: here we are changing all the rows with these names
     # ideally we should change just the rows of the corresponding table
     for key in primary_keys:
-        pattern = re.compile(r'%s (TEXT),' %key)
-        print(pattern.findall(subject))
-        print(key)
-        #subject = pattern.sub(" VARCHAR(200)", subject)
-
+        pattern = re.compile(r'`record_id` (TEXT),')
+    #print(pattern.findall(subject))
+    #print(key)
+    #subject = pattern.sub("`%s` VARCHAR(200)", subject)
+    
     # write the file
     path_to_changed_mysql_dump = path_to_mysql_dump + '.copy'
     f_out = file(path_to_changed_mysql_dump, 'w')
     f_out.write(subject)
     f_out.close()
+
 
     print("Done: Key constraint added")
     print("===================")
@@ -70,8 +86,8 @@ def edit_mysql_file(path_to_mysql_dump):
     new_days.write(days)
     sql_file.close()
 
-path_to_sqlitedb = ''
-path_to_mysql_dump = ''
+path_to_sqlitedb = '/Users/marlycormar/git/iCARE/to_delete/malignant_db/batches/MHB/2018-03-19/data.db'
+path_to_mysql_dump = '/Users/marlycormar/git/iCARE/to_delete/malignant_db/dumps/malignant.sql'
 
 
 dump_sqlite_data(path_to_sqlitedb, path_to_mysql_dump)
