@@ -147,6 +147,13 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
 ## Use redash to analyze data for both malignant and iCare dbs.
 
 
+- You may need to install Node.js
+
+        brew update
+        brew doctor
+        brew install node
+        
+- Forked repo [redash](https://github.com/getredash/redash)
 
 
 
