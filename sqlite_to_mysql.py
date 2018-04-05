@@ -22,8 +22,7 @@ def remove_foreing_keys(path_to_mysql_dump):
     result = pattern.sub("", subject)
 
     # write the file
-    path_to_changed_mysql_dump = path_to_mysql_dump
-    f_out = file(path_to_changed_mysql_dump, 'w')
+    f_out = file(path_to_mysql_dump, 'w')
     f_out.write(result)
     f_out.close()
     
@@ -57,8 +56,7 @@ def add_key_length(path_to_mysql_dump):
     subject = pattern.sub("VARCHAR(200)", subject)
 
     # write the file
-    path_to_changed_mysql_dump = path_to_mysql_dump
-    f_out = file(path_to_changed_mysql_dump, 'w')
+    f_out = file(path_to_mysql_dump, 'w')
     f_out.write(subject)
     f_out.close()
 
