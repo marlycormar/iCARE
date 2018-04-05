@@ -147,15 +147,15 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
 ## Use redash to analyze data for both malignant and iCare dbs.
 
 
-- You may need to install Node.js
+- You may need to install Node.js:
 
         brew update
         brew doctor
         brew install node
         
-- Forked repo [redash](https://github.com/getredash/redash)
+- Fork repo [redash](https://github.com/getredash/redash) and cd into this folder.
 
-- Create docker services
+- Create docker services:
     
         docker-compose up -d
 
@@ -168,6 +168,12 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
     - Create database for tests
         
             docker-compose run --rm postgres psql -h postgres -U postgres -c "create database tests"
+
+- The Redash is available at [http://localhost:5000/](http://localhost:5000/).
+
+- You may need to install `npm`:
+        
+        npm install
 
         
 
