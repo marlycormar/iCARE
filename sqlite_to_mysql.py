@@ -1,5 +1,4 @@
-#! /usr/bin/env python
-import os, re, fileinput, tempfile
+import os, re, fileinput
 import itertools
 
 def dump_sqlite_data(path_to_sqlitedb, path_to_mysql_dump):
@@ -66,10 +65,9 @@ def add_key_length(path_to_mysql_dump):
     print("Done: Key constraint added")
     print("===================")
 
-
-path_to_sqlitedb = ''
-path_to_mysql_dump = ''
-
+# read configuration from environment
+path_to_sqlitedb = os.environ['path_to_sqlitedb']
+path_to_mysql_dump = os.environ['path_to_mysql_dump']
 
 dump_sqlite_data(path_to_sqlitedb, path_to_mysql_dump)
 remove_foreing_keys(path_to_mysql_dump)
