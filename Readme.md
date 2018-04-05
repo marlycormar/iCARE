@@ -131,8 +131,18 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
         
 ## Conver sqlite db into mysql db
 
+- The python script reads its configuration from the environment.  These variables are required:
+
+        export path_to_sqlitedb=
+        export path_to_mysql_dump=
+
+- Run script:
+
         python sqlite_to_mysql.py
         mysql -u root -ppassword malignant < malignant.sql
+        
+
+
 
 
 
