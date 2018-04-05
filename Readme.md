@@ -153,7 +153,7 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
         brew doctor
         brew install node
         
-- Fork repo [redash](https://github.com/getredash/redash) and cd into this folder.
+- Fork repo [redash](git@github.com:marlycormar/redash.git) and cd into this folder.
 
 - Create docker services:
     
@@ -194,3 +194,7 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
         Email Address: marlycormar@gmail.com
         Password: Password
         Organization Name: CTSIT
+        
+
+TODO:
+- add access to local mysql server or dump and store data in a container
