@@ -141,7 +141,10 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
 
 - Run script:
 
-        python sqlite_to_mysql.py        
+        python sqlite_to_mysql.py
+        
+        
+## Use redash to analyze data for both malignant and iCare dbs.
 
 
 
