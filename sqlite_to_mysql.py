@@ -1,7 +1,11 @@
 import os, re, fileinput
 import itertools
 
-def dump_sqlite_data(path_to_sqlitedb, path_to_mysql_dump):
+# read configuration from environment
+path_to_sqlitedb = os.environ['path_to_sqlitedb']
+path_to_mysql_dump = os.environ['path_to_mysql_dump']
+
+def dump_sqlite_data():
     print("Starting: dump_sqlite_data")
     
     os.system("sqlite3 %s .dump | python cleaning_mysql_dump.py -d malignant > %s" %(path_to_sqlitedb, path_to_mysql_dump))
@@ -9,7 +13,7 @@ def dump_sqlite_data(path_to_sqlitedb, path_to_mysql_dump):
     print("Done: Sqlite data dumped")
     print("===================")
 
-def remove_foreing_keys(path_to_mysql_dump):
+def remove_foreing_keys():
     print("Starting: remove_foreing_keys")
 
     # open the source file and read it
@@ -29,7 +33,7 @@ def remove_foreing_keys(path_to_mysql_dump):
     print("Done: Foreing keys removed")
     print("===================")
 
-def add_key_length(path_to_mysql_dump):
+def add_key_length():
     print("Starting: add_key_length")
 
     # open the source file and read it
@@ -71,10 +75,8 @@ def copy_data_to_mysql():
     print("Done: Sql data copied to mysql")
     print("===================")
 
-# read configuration from environment
-path_to_sqlitedb = os.environ['path_to_sqlitedb']
-path_to_mysql_dump = os.environ['path_to_mysql_dump']
 
-dump_sqlite_data(path_to_sqlitedb, path_to_mysql_dump)
-remove_foreing_keys(path_to_mysql_dump)
-add_key_length(path_to_mysql_dump)
+dump_sqlite_data()
+remove_foreing_keys()
+add_key_length()
+copy_data_to_mysql()
