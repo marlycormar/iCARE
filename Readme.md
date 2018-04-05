@@ -175,6 +175,18 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
         
         npm install
 
+- Build the frontend assets and start the webpack dev server:
+        
+        npm run build
+        npm run start
+
+- If the build command fails, install the following modules:
+        
+        npm install webpack
+        npm install pace-progress
+        npm install cornelius
+        
+- The dev server is available at [http://localhost:8080](http://localhost:8080). All the API calls are proxied to `localhost:5000` (the server running in Docker).
         
 
     
