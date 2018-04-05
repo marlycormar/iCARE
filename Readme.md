@@ -133,13 +133,16 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
 
 - The python script reads its configuration from the environment.  These variables are required:
 
-        export path_to_sqlitedb=
-        export path_to_mysql_dump=
+        export mysql_user=root
+        export mysql_password=password
+        export mysql_db=malignant
+        export path_to_sqlitedb=/Users/marlycormar/git/iCARE/main/dumps/data.db
+        export path_to_mysql_dump=/Users/marlycormar/git/iCARE/main/dumps/malignant.sql
 
 - Run script:
 
         python sqlite_to_mysql.py
-        mysql -u root -ppassword malignant < malignant.sql
+        mysql -u root -ppassword malignant < path_to_mysql_dump
         
 
 
