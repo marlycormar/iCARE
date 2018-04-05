@@ -188,5 +188,9 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
         
 - The dev server is available at [http://localhost:8080](http://localhost:8080). All the API calls are proxied to `localhost:5000` (the server running in Docker).
         
+- Use the following credentials:
 
-    
+        Name: admin
+        Email Address: marlycormar@gmail.com
+        Password: Password
+        Organization Name: CTSIT
