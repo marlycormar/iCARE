@@ -155,7 +155,19 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
         
 - Forked repo [redash](https://github.com/getredash/redash)
 
+- Create docker services
+    
+        docker-compose up -d
 
+- Create database:
+
+    - Create tables
+        
+            docker-compose run --rm server create_db
+            
+    - Create database for tests
+        
+            docker-compose run --rm postgres psql -h postgres -U postgres -c "create database tests"
 
         
 
