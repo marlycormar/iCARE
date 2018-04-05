@@ -4,6 +4,9 @@ import itertools
 # read configuration from environment
 path_to_sqlitedb = os.environ['path_to_sqlitedb']
 path_to_mysql_dump = os.environ['path_to_mysql_dump']
+mysql_user = os.environ['mysql_user']
+mysql_password = os.environ['mysql_password']
+mysql_db = os.environ['mysql_db']
 
 def dump_sqlite_data():
     print("Starting: dump_sqlite_data")
