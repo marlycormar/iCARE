@@ -73,7 +73,7 @@ def add_key_length():
 def copy_data_to_mysql():
     print("Starting: copy_data_to_mysql")
     
-    os.system("mysql -u %s -p%s %s < path_to_mysql_dump" %(mysql_user, mysql_password, mysql_db, path_to_mysql_dump))
+    os.system("mysql -u %s -p%s %s < %s" %(mysql_user, mysql_password, mysql_db, path_to_mysql_dump))
 
     print("Done: Sql data copied to mysql")
     print("===================")
