@@ -63,8 +63,13 @@ def add_key_length(path_to_mysql_dump):
     print("Done: Key constraint added")
     print("===================")
 
-def copy_data_to_mysql():    
+def copy_data_to_mysql():
+    print("Starting: copy_data_to_mysql")
+    
     os.system("mysql -u %s -p%s %s < path_to_mysql_dump" %(mysql_user, mysql_password, mysql_db, path_to_mysql_dump))
+
+    print("Done: Sql data copied to mysql")
+    print("===================")
 
 # read configuration from environment
 path_to_sqlitedb = os.environ['path_to_sqlitedb']
