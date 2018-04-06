@@ -153,7 +153,7 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
         brew doctor
         brew install node
         
-- Fork repo [redash](git@github.com:marlycormar/redash.git) and cd into this folder.
+- Fork repo [redash](https://github.com/marlycormar/redash/tree/icare) and cd into this folder.
 
 - Create docker services:
     
@@ -200,4 +200,4 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
 - add access to local mysql server or dump and store data in a container
 
 # CURRENTLY WORKING:
-- Add mysql container to docker compose so that we can add data source to redash
+- Add mysql container to docker compose so that we can add data source to redash (https://github.com/marlycormar/redash/tree/icare)
