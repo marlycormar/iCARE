@@ -192,9 +192,12 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
 
         Name: admin
         Email Address: marlycormar@gmail.com
-        Password: Password
+        Password: password
         Organization Name: CTSIT
         
 
-TODO:
+# TODO:
 - add access to local mysql server or dump and store data in a container
+
+# CURRENTLY WORKING:
+- Add mysql container to docker compose so that we can add data source to redash
