@@ -195,6 +195,10 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
         Password: password
         Organization Name: CTSIT
         
+## Using honeyguide
+
+- Go to https://github.com/marlycormar/honeyguide and clone the repo locally.
+
 
 # TODO:
 - add access to local mysql server or dump and store data in a container
