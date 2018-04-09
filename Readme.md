@@ -199,6 +199,9 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
 
 - Go to https://github.com/marlycormar/honeyguide and clone the repo locally.
 
+- Follow the `README.md` instructions.
+
+
 
 # TODO:
 - add access to local mysql server or dump and store data in a container
