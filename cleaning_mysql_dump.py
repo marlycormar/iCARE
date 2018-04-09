@@ -26,10 +26,10 @@ def _replace_match_allcase(line, src, dst):
     return line
 
 def _replace(line):
-    if any(line.startswith(prefix) for prefix in IGNOREDPREFIXES):
+    if any(line.startswith(prefix.encode('utf8')) for prefix in IGNOREDPREFIXES):
         return
     for (src,dst) in REPLACEMAP.items():
-        line = _replace_match_allcase(line, src, dst)
+        line = _replace_match_allcase(line, src.encode('utf8'), dst.encode('utf8'))
     return line
 
 def _backticks(line, in_string):
@@ -75,7 +75,7 @@ use {d};\n'''.format(d=opts.database, u=opts.username, p=opts.password)
             line = _replace(line)
             if line is None:
                 continue
-        line, in_string = _backticks(line, in_string)
+        line, in_string = _backticks(line.decode('utf8'), in_string)
         yield line
 
 def _removeNewline(line, in_string):
@@ -120,7 +120,7 @@ def main():
     lines = (l for l in _Newline(lines))
     f = tempfile.TemporaryFile()
     for line in lines:
-        f.write(line)
+        f.write(line.encode("utf8"))
     f.seek(0)
     lines = (l for l in f.readlines())
     f.close()
