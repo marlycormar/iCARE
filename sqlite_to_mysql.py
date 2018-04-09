@@ -20,8 +20,8 @@ def dump_sqlite_data():
     print("Done: Sqlite data dumped")
     print("===================")
 
-def remove_foreing_keys():
-    print("Starting: remove_foreing_keys")
+def remove_foreign_keys():
+    print("Starting: remove_foreign_keys")
 
     try:
         # open the source file and read it
@@ -30,7 +30,7 @@ def remove_foreing_keys():
         fh.close()
 
         # do the replace
-        pattern = re.compile(r',\nFOREIGN KEY.*$',re.MULTILINE)
+        pattern = re.compile(r',\n+FOREIGN KEY.*$',re.MULTILINE)
         result = pattern.sub("", subject)
 
         # write the file
@@ -38,10 +38,10 @@ def remove_foreing_keys():
         f_out.write(result)
         f_out.close()
     except Exception as e:
-        print("The function remove_foreing_keys failed. See error:\n")
+        print("The function remove_foreign_keys failed. See error:\n")
         raise
 
-    print("Done: Foreing keys removed")
+    print("Done: Foreign keys removed")
     print("===================")
 
 def add_key_length():
@@ -96,6 +96,6 @@ def copy_data_to_mysql():
 
 
 dump_sqlite_data()
-remove_foreing_keys()
+remove_foreign_keys()
 add_key_length()
 copy_data_to_mysql()
