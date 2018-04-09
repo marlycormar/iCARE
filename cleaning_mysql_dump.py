@@ -95,7 +95,7 @@ def _removeNewline(line, in_string):
                  continue
         new = new + c
     return new, in_string
-	
+
 def _replaceNewline(lines):
     for line in lines:
            line = line.replace("Newline333", "\n")
@@ -109,7 +109,7 @@ def _Newline(lines):
            continue
         line, in_string = _removeNewline(line, in_string)
         yield line
-	
+
 def main():
     op = OptionParser()
     op.add_option('-d', '--database')
@@ -126,7 +126,7 @@ def main():
     f.close()
     lines = (l for l in _process(opts, lines))
     for line in _replaceNewline(lines):
-       print line,
+       print(line)
 
 if __name__ == "__main__":
     main()

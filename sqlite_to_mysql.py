@@ -13,8 +13,8 @@ def dump_sqlite_data():
 
     try:
         os.system("sqlite3 %s .dump | python cleaning_mysql_dump.py -d malignant > %s" %(path_to_sqlitedb, path_to_mysql_dump))
-    except Exception, e:
-        print "The function dump_sqlite_data failed. See error:\n"
+    except Exception as e:
+        print("The function dump_sqlite_data failed. See error:\n")
         raise
 
     print("Done: Sqlite data dumped")
@@ -22,10 +22,10 @@ def dump_sqlite_data():
 
 def remove_foreing_keys():
     print("Starting: remove_foreing_keys")
-    
+
     try:
         # open the source file and read it
-        fh = file(path_to_mysql_dump, 'r')
+        fh = open(path_to_mysql_dump, 'r')
         subject = fh.read()
         fh.close()
 
@@ -34,13 +34,13 @@ def remove_foreing_keys():
         result = pattern.sub("", subject)
 
         # write the file
-        f_out = file(path_to_mysql_dump, 'w')
+        f_out = open(path_to_mysql_dump, 'w')
         f_out.write(result)
         f_out.close()
-    except Exception, e:
-        print "The function remove_foreing_keys failed. See error:\n"
+    except Exception as e:
+        print("The function remove_foreing_keys failed. See error:\n")
         raise
-    
+
     print("Done: Foreing keys removed")
     print("===================")
 
@@ -49,10 +49,10 @@ def add_key_length():
 
     try:
         # open the source file and read it
-        fh = file(path_to_mysql_dump, 'rw')
+        fh = open(path_to_mysql_dump, 'r')
         subject = fh.read()
         fh.close()
-       
+
         # todo: improve regex since it will avoid the clean up below
         # finds PRIMARY KEY (`some_row`, `another row`) and adds
         #  changes the type TEXT by VARCHAR(200)
@@ -60,23 +60,23 @@ def add_key_length():
         primary_keys = pattern.findall(subject)
         primary_keys = [list.replace('`','').split(',') for list in primary_keys]
         primary_keys = [key for key in itertools.chain.from_iterable(primary_keys)]
-        
+
         # todo: here we are changing all the rows with these names
         # ideally we should change just the rows of the corresponding table
         for key in primary_keys:
             pattern = re.compile(r'`%s` (TEXT)' %key)
             subject = pattern.sub("`%s` VARCHAR(200)"%key, subject)
-       
+
         pattern = re.compile(r'(TEXT) PRIMARY KEY')
         primary_keys = pattern.findall(subject)
         subject = pattern.sub("VARCHAR(200)", subject)
 
         # write the file
-        f_out = file(path_to_mysql_dump, 'w')
+        f_out = open(path_to_mysql_dump, 'w')
         f_out.write(subject)
         f_out.close()
-    except Exception, e:
-        print "The function add_key_length failed. See error:\n"
+    except Exception as e:
+        print("The function add_key_length failed. See error:\n")
         raise
 
     print("Done: Key constraint added")
@@ -84,11 +84,11 @@ def add_key_length():
 
 def copy_data_to_mysql():
     print("Starting: copy_data_to_mysql")
-    
+
     try:
         os.system("mysql -u %s -p%s %s < %s" %(mysql_user, mysql_password, mysql_db, path_to_mysql_dump))
-    except Exception, e:
-        print "The function copy_data_to_mysql failed. See error:\n"
+    except Exception as e:
+        print("The function copy_data_to_mysql failed. See error:\n")
         raise
 
     print("Done: Sql data copied to mysql")
