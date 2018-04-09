@@ -69,19 +69,26 @@ The python script reads its configuration from the environment.  These variables
 - Run the script by doing:
 
         python2 create_and_populate_table.py
-        
+
 ## Get data from REDCap
 
 We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap projects.
 
-- Install QUAIL as a python module by first clonning it in a local directory:
+Note: Quail requires Python3.
+
+- Install QUAIL's prerequisites
+
+    git clone git@github.com:ctsit/cappy.git
+    pip install -e cappy
+
+- Install QUAIL as a python module by first cloning it in a local directory:
 
         git clone git@github.com:marlycormar/QUAIL.git
-    
+
     and then installing it:
 
         pip install -e QUAIL
-        
+
 - General usage:
 
         quail install <root>
@@ -91,17 +98,18 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
         quail redcap gen_meta (<project_name>) [ -q <quail.conf.yaml> ]
         quail redcap gen_data (<project_name>) [ -q <quail.conf.yaml> ]
         quail redcap make_import_files (<project_name>) [ -q <quail.conf.yaml> ]
-        
+
 - To run QUAIL:
-        
+
         quail install $directory_for_redcap_data
-        quail redcap generate quail.conf.yaml "Malignant" 78JNMKDR346hhKJbj85DE4 http://redcap.test/redcap/redcap_v8.2.0/api/
+        cd $directory_for_redcap_data
+        quail redcap generate quail.conf.yaml "Malignant" 78JNMKDR346hhKJbj85DE4 http://redcap.test/redcap/api/
         quail redcap get_meta "Malignant"
         quail redcap get_data "Malignant"
         quail redcap gen_meta "Malignant"
         quail redcap gen_data "Malignant"
         quail redcap make_import_files "Malignant"
-        
+
 - This will save the information for the REDCap project into a sqlite database in the directory `$directory_for_redcap_data/batches/Malignant/2018-03-19/data.db` were `2018-03-19` represents the current date.
 
 - To dump the sqlite database:
@@ -117,18 +125,18 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
 - Create `malignant` database:
 
         echo 'CREATE DATABASE malignant;' | psql postgres
-        
+
 - Convert sqlite db to postgress db:
 
         pgloader $directory_for_redcap_data/batches/Malignant/2018-03-19/data.db postgresql:///malignant
-        
+
 - Check that the convertion was succesfull:
 
         psql postgres
         \c malignant -- Change database to malignant
         \dt -- Show tables
-        
-        
+
+
 ## Conver sqlite db into mysql db
 
 - The python script reads its configuration from the environment.  These variables are required:
@@ -142,8 +150,8 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
 - Run script:
 
         python sqlite_to_mysql.py
-        
-        
+
+
 ## Use redash to analyze data for both malignant and iCare dbs.
 
 
@@ -152,49 +160,49 @@ We will use [QUAIL](git@github.com:ctsit/QUAIL.git) to get data from REDCap proj
         brew update
         brew doctor
         brew install node
-        
+
 - Fork repo [redash](https://github.com/marlycormar/redash/tree/icare) and cd into this folder.
 
 - Create docker services:
-    
+
         docker-compose up -d
 
 - Create database:
 
     - Create tables
-        
+
             docker-compose run --rm server create_db
-            
+
     - Create database for tests
-        
+
             docker-compose run --rm postgres psql -h postgres -U postgres -c "create database tests"
 
 - The Redash is available at [http://localhost:5000/](http://localhost:5000/).
 
 - You may need to install `npm`:
-        
+
         npm install
 
 - Build the frontend assets and start the webpack dev server:
-        
+
         npm run build
         npm run start
 
 - If the build command fails, install the following modules:
-        
+
         npm install webpack
         npm install pace-progress
         npm install cornelius
-        
+
 - The dev server is available at [http://localhost:8080](http://localhost:8080). All the API calls are proxied to `localhost:5000` (the server running in Docker).
-        
+
 - Use the following credentials:
 
         Name: admin
         Email Address: marlycormar@gmail.com
         Password: password
         Organization Name: CTSIT
-        
+
 ## Using honeyguide
 
 - Go to https://github.com/marlycormar/honeyguide and clone the repo locally.
