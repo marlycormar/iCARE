@@ -220,6 +220,15 @@ Note: Quail requires Python3.
 - To add the datasource, you will need the container ip address. To get that, inspect the container and look for the `Gateway` ip address:
     
         docker inspect container_id
+        
+- To add a postgres datasource you will need the following information:
+
+        Host: container_ip
+        Port: 32776
+        User: redash
+        Password: password
+        Database Name: redash
+
 
 
 # TODO:
