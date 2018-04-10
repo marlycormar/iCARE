@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 import re, fileinput, tempfile
 from optparse import OptionParser
 
