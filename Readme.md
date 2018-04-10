@@ -205,7 +205,7 @@ Note: Quail requires Python3.
 
 ## Using honeyguide
 
-- Go to https://github.com/marlycormar/honeyguide and clone the repo locally.
+- Go to https://github.com/marlycormar/honeyguide/tree/mysql and clone the repo locally.
 
 - `cd` into `honeyguide` and run:
     
