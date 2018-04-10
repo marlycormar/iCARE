@@ -237,9 +237,3 @@ Note: Quail requires Python3.
         Database Name: redash
 
 
-
-# TODO:
-- add access to local mysql server or dump and store data in a container
-
-# CURRENTLY WORKING:
-- Add mysql container to docker compose so that we can add data source to redash (https://github.com/marlycormar/redash/tree/icare)
