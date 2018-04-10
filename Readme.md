@@ -209,7 +209,7 @@ Note: Quail requires Python3.
 
 - `cd` into `honeyguide` and run:
     
-        `docker-compose up --build`
+        docker-compose up --build
 
 - To access the web interface of redash go to [http://localhost:5000/](http://localhost:5000/).
 
@@ -226,6 +226,13 @@ Note: Quail requires Python3.
         Host: container_ip
         Port: 32776
         User: redash
+        Password: password
+        Database Name: redash
+        
+- To add a mysql datasource you will need the following information:
+
+        Host: container_ip
+        Port: 3306
         Password: password
         Database Name: redash
 
