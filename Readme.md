@@ -213,21 +213,9 @@ Note: Quail requires Python3.
 
 - To access the web interface of redash go to [http://localhost:5000/](http://localhost:5000/).
 
-- To connect to the postgres database on the docker container from the host:
-
-        psql -h 0.0.0.0 -p 32776 -U redash
-
 - To add the datasource, you will need the container ip address. To get that, inspect the container and look for the `Gateway` ip address:
     
         docker inspect container_id
-        
-- To add a postgres datasource you will need the following information:
-
-        Host: container_ip
-        Port: 32776
-        User: redash
-        Password: password
-        Database Name: redash
         
 - To add a mysql datasource you will need the following information:
 
@@ -235,5 +223,7 @@ Note: Quail requires Python3.
         Port: 3306
         Password: password
         Database Name: redash
+        
+Notice that both the `malignant` and the `iCare` databases will be already on the docker mysql instance.
 
 
