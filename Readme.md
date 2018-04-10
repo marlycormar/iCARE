@@ -145,85 +145,49 @@ Note: Quail requires Python3.
         export mysql_password=password
         export mysql_db=malignant
         export path_to_sqlitedb=/Users/marlycormar/git/iCARE/main/dumps/data.db
-        export path_to_mysql_dump=/Users/marlycormar/git/iCARE/main/dumps/malignant.sql
+        export path_to_mysql_dump=/Users/marlycormar/git/honeyguide/db/malignant.sql
+
+To streamline your process path_to_mysql_dump should be the honeyguide db folder.  e.g.
+
+    ./git/honeyguide/db/malignant.sql
 
 - Run script:
 
         python sqlite_to_mysql.py
 
 
-## Use redash to analyze data for both malignant and iCare dbs.
-
-
-- You may need to install Node.js:
-
-        brew update
-        brew doctor
-        brew install node
-
-- Fork repo [redash](https://github.com/marlycormar/redash/tree/icare) and cd into this folder.
-
-- Create docker services:
-
-        docker-compose up -d
-
-- Create database:
-
-    - Create tables
-
-            docker-compose run --rm server create_db
-
-    - Create database for tests
-
-            docker-compose run --rm postgres psql -h postgres -U postgres -c "create database tests"
-
-- The Redash is available at [http://localhost:5000/](http://localhost:5000/).
-
-- You may need to install `npm`:
-
-        npm install
-
-- Build the frontend assets and start the webpack dev server:
-
-        npm run build
-        npm run start
-
-- If the build command fails, install the following modules:
-
-        npm install webpack
-        npm install pace-progress
-        npm install cornelius
-
-- The dev server is available at [http://localhost:8080](http://localhost:8080). All the API calls are proxied to `localhost:5000` (the server running in Docker).
-
-- Use the following credentials:
-
-        Name: admin
-        Email Address: marlycormar@gmail.com
-        Password: password
-        Organization Name: CTSIT
-
 ## Using honeyguide
 
-- Go to https://github.com/marlycormar/honeyguide/tree/mysql and clone the repo locally.
+- Go to https://github.com/marlycormar/honeyguide/tree/mysql, clone the repo locally, and checkout the mysql branch.
 
-- `cd` into `honeyguide` and run:
-    
+    git clone git@github.com:marlycormar/honeyguide.git
+    cd honeyguide
+    git checkout mysql
+
+- Configure Honeyguide to load our data into a MySQL DB. Use fake.env as a template.  Copy it to ".env" and customize as needed.
+
+    cp fake.env .env
+    # edit .env
+
+- Run
+
+- Build and start honeyguide
+
         docker-compose up --build
 
 - To access the web interface of redash go to [http://localhost:5000/](http://localhost:5000/).
 
 - To add the datasource, you will need the container ip address. To get that, inspect the container and look for the `Gateway` ip address:
-    
+
         docker inspect container_id
-        
+
 - To add a mysql datasource you will need the following information:
 
         Host: container_ip
         Port: 3306
         Password: password
         Database Name: redash
-        
+
 Notice that both the `malignant` and the `iCare` databases will be already on the docker mysql instance.
 
 
