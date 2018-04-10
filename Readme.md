@@ -209,6 +209,13 @@ Note: Quail requires Python3.
 
 - Follow the `README.md` instructions.
 
+- To connect to the postgres database on the docker container from the host:
+
+        psql -h 0.0.0.0 -p 32776 -U redash
+
+- To add the datasource, you will need the container ip address. To get that, inspect the container and look for the `Gateway` ip address:
+    
+        docker inspect container_id
 
 
 # TODO:
