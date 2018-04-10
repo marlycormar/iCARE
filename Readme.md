@@ -207,7 +207,11 @@ Note: Quail requires Python3.
 
 - Go to https://github.com/marlycormar/honeyguide and clone the repo locally.
 
-- Follow the `README.md` instructions.
+- `cd` into `honeyguide` and run:
+    
+        `docker-compose up --build`
+
+- To access the web interface of redash go to [http://localhost:5000/](http://localhost:5000/).
 
 - To connect to the postgres database on the docker container from the host:
 
