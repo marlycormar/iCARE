@@ -11,7 +11,7 @@ directory = os.environ['directory_with_farsight_files']
 table_name = 'farsight'
 
 # connecting to the database
-mydb = MySQLdb.connect(host=mysql_host, user=mysql_user, db=mysql_db)
+mydb = MySQLdb.connect(host=mysql_host, user=mysql_user, db=mysql_db, passwd=mysql_password)
 cursor = mydb.cursor()
 
 def create_table(table_name):
