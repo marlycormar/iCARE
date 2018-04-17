@@ -3,18 +3,18 @@ import MySQLdb
 import os
 
 # read configuration from environment
-mysql_host = os.environ['mysql_host']
-mysql_user = os.environ['mysql_user']
-mysql_password = os.environ['mysql_password']
+#mysql_host = os.environ['mysql_host']
+#mysql_user = os.environ['mysql_user']
+#mysql_password = os.environ['mysql_password']
 mysql_db = os.environ['mysql_db']
 directory = os.environ['directory_with_farsight_files']
 table_name = 'farsight'
 
 # connecting to the database
-mydb = MySQLdb.connect(host=mysql_host, user=mysql_user, db=mysql_db, passwd=mysql_password)
-cursor = mydb.cursor()
 
-def create_table(table_name):
+sql_queries = ''
+
+def create_table():
     print("Starting: create_table")
     column_names = ["`study_id`", "`file_name`"]
     for file_name in os.listdir(directory):
@@ -33,7 +33,6 @@ def create_table(table_name):
 
     # TODO: the field Existing_variation is biggg, it needs more than VARCHAR(350).
     create_table_query = """CREATE TABLE IF NOT EXISTS """ + table_name + " (" + " VARCHAR(250),".join(column_names) + " VARCHAR(250))"
-    cursor.execute(create_table_query)
     print("Done: Table created")
     print("===================")
 
@@ -84,17 +83,28 @@ def change_field_type (table_name, field_names_types_pairs):
     print("Done: Field types updated")
     print("=========================")
 
+
+def create_mysql_table():
+    mydb = MySQLdb.connect(host=mysql_host, user=mysql_user, db=mysql_db, passwd=mysql_password)
+    cursor = mydb.cursor()
+
+    cursor.execute(sql_queries)
+
+    # commit the the table changes to the db
+    mydb.commit()
+
+    # close the connection to the database.
+    cursor.close()
+
+
+
 create_table(table_name)
 field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
 change_field_type(table_name, field_names_types_pairs)
 fill_table(table_name)
 add_indexes(table_name, ["study_id", "ChromosomeNo", "GeneName", "pMut"])
 
-# commit the the table changes to the db
-mydb.commit()
 
-# close the connection to the database.
-cursor.close()
 
 print("Done");
 
