@@ -13,9 +13,10 @@ table_name = 'farsight'
 sql_queries = ""
 
 def create_tables_queries():
-    sql_queries = "CREATE DATABASE IF NOT EXISTS %s;\n" %mysql_db
-
     print("Starting: create_tables_queries")
+    sql_queries = "CREATE DATABASE IF NOT EXISTS %s;\n" %mysql_db
+    sql_queries += "USE %s;\n" %mysql_db
+
     column_names = ["`study_id`", "`file_name`"]
     for file_name in os.listdir(directory):
         if file_name.endswith(".csv"):
@@ -34,11 +35,10 @@ def create_tables_queries():
     # TODO: the field Existing_variation is biggg, it needs more than VARCHAR(350).
     sql_queries += """CREATE TABLE IF NOT EXISTS """ + table_name + " (" + " VARCHAR(250),".join(column_names) + " VARCHAR(250)); \n"
     print("Done: Queries to insert tables created")
-    print(sql_queries)
     print("===================")
 
-def fill_table(table_name):
-    print("Starting: fill_table")
+def fill_tables_queries():
+    print("Starting: fill_tables_queries")
     count = 0
     for file_name in os.listdir(directory):
         if file_name.endswith(".csv"): #and file_name.startswith("OtB"):
@@ -59,14 +59,13 @@ def fill_table(table_name):
                 # writing as many %s as the number of columns
                 row = [file_name] + row     # maybe modify the csv file first?
                 row = [study_id] + row      # consider improving this method of prepending
-                cursor.execute("INSERT INTO %s (%s) VALUES (%s)" %(table_name, columns, format_strings), row)
+                sql_queries += str(("INSERT INTO %s (%s) VALUES (%s)" %(table_name, columns, format_strings), row))
                 count += 1
-
-    print("Done: Tabled filled. %s records created" %count)
+    print("Done: Queries added. %s records created" %count)
     print("==============================================")
 
 
-def add_indexes(table_name, indexes):
+def add_indexes(indexes):
     print("Starting: add_indexes")
 
     for field_name in indexes:
@@ -75,7 +74,7 @@ def add_indexes(table_name, indexes):
     print("Done: Indexes added")
     print("===================")
 
-def change_field_type (table_name, field_names_types_pairs):
+def change_field_type (field_names_types_pairs):
     print("Starting: change_field_type")
 
     for pair in field_names_types_pairs:
@@ -94,11 +93,11 @@ def create_local_mysql_table():
 
 
 
-create_tables_queries()
+#create_tables_queries()
 #field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
-#change_field_type(table_name, field_names_types_pairs)
-#fill_table(table_name)
-#add_indexes(table_name, ["study_id", "ChromosomeNo", "GeneName", "pMut"])
+#change_field_type(field_names_types_pairs)
+fill_tables_queries()
+#add_indexes(["study_id", "ChromosomeNo", "GeneName", "pMut"])
 
 
 
@@ -112,3 +111,4 @@ print("Done");
 
 ## todo:
 ## add comments on create_local_mysql_table
+## remove paraenthesis in the print stemetns
