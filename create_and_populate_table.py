@@ -5,9 +5,8 @@ import os
 # read configuration from environment
 mysql_db = os.environ['mysql_db']
 directory = os.environ['directory_with_farsight_files']
+sql_dump = os.environ['sql_dump']
 table_name = 'farsight'
-sql_queries = "CREATE DATABASE IF NOT EXISTS %s;\n" %mysql_db
-sql_queries += "USE %s;\n" %mysql_db
 
 def create_tables_queries():
     print("Starting: create_tables_queries")
@@ -28,7 +27,11 @@ def create_tables_queries():
                         column_names.append("`" + column + "`")
 
     # TODO: the field Existing_variation is biggg, it needs more than VARCHAR(350).
-    sql_queries += """CREATE TABLE IF NOT EXISTS """ + table_name + " (" + " VARCHAR(250),".join(column_names) + " VARCHAR(250)); \n"
+    f = open(sql_dump, 'w')
+    f.write("CREATE DATABASE IF NOT EXISTS %s;\n" %mysql_db)
+    f.write("USE %s;\n" %mysql_db)
+    f.write("""CREATE TABLE IF NOT EXISTS """ + table_name + " (" + " VARCHAR(250),".join(column_names) + " VARCHAR(250)); \n")
+    f.close();
     print("Done: Queries to insert tables created")
     print("===================")
 
@@ -98,11 +101,11 @@ def queries_to_local_mysql_db():
 
 
 create_tables_queries()
-field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
-change_field_type(field_names_types_pairs)
-fill_tables_queries()
-add_indexes(["study_id", "ChromosomeNo", "GeneName", "pMut"])
-queries_to_local_mysql_db()
+#field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
+#change_field_type(field_names_types_pairs)
+#fill_tables_queries()
+#add_indexes(["study_id", "ChromosomeNo", "GeneName", "pMut"])
+#queries_to_local_mysql_db()
 print("Done");
 
 
