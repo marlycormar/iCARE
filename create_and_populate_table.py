@@ -3,20 +3,15 @@ import MySQLdb
 import os
 
 # read configuration from environment
-#mysql_host = os.environ['mysql_host']
-#mysql_user = os.environ['mysql_user']
-#mysql_password = os.environ['mysql_password']
 mysql_db = os.environ['mysql_db']
 directory = os.environ['directory_with_farsight_files']
 table_name = 'farsight'
-
-sql_queries = ""
+sql_queries = "CREATE DATABASE IF NOT EXISTS %s;\n" %mysql_db
+sql_queries += "USE %s;\n" %mysql_db
 
 def create_tables_queries():
     print("Starting: create_tables_queries")
-    sql_queries = "CREATE DATABASE IF NOT EXISTS %s;\n" %mysql_db
-    sql_queries += "USE %s;\n" %mysql_db
-
+    global sql_queries
     column_names = ["`study_id`", "`file_name`"]
     for file_name in os.listdir(directory):
         if file_name.endswith(".csv"):
@@ -39,6 +34,7 @@ def create_tables_queries():
 
 def fill_tables_queries():
     print("Starting: fill_tables_queries")
+    global sql_queries
     count = 0
     for file_name in os.listdir(directory):
         if file_name.endswith(".csv"): #and file_name.startswith("OtB"):
@@ -57,6 +53,7 @@ def fill_tables_queries():
             # insert each row
             for row in csv_data:
                 # writing as many %s as the number of columns
+                #print row
                 row = [file_name] + row     # maybe modify the csv file first?
                 row = [study_id] + row      # consider improving this method of prepending
                 sql_queries += str(("INSERT INTO %s (%s) VALUES (%s)" %(table_name, columns, format_strings), row))
@@ -67,24 +64,30 @@ def fill_tables_queries():
 
 def add_indexes(indexes):
     print("Starting: add_indexes")
+    global sql_queries
 
     for field_name in indexes:
-        cursor.execute("CREATE INDEX %s ON %s (%s)" %(field_name, table_name, field_name))
+        sql_queries += "CREATE INDEX %s ON %s (%s)" %(field_name, table_name, field_name)
 
     print("Done: Indexes added")
     print("===================")
 
 def change_field_type (field_names_types_pairs):
     print("Starting: change_field_type")
+    global sql_queries
 
     for pair in field_names_types_pairs:
-        cursor.execute("ALTER TABLE %s MODIFY %s %s" %(table_name, pair[0], pair[1]))
+        sql_queries += "ALTER TABLE %s MODIFY %s %s" %(table_name, pair[0], pair[1])
 
     print("Done: Field types updated")
     print("=========================")
 
 
-def create_local_mysql_table():
+def queries_to_local_mysql_db():
+    global sql_queries
+    mysql_host = os.environ['mysql_host']
+    mysql_user = os.environ['mysql_user']
+    mysql_password = os.environ['mysql_password']
     mydb = MySQLdb.connect(host=mysql_host, user=mysql_user, db=mysql_db, passwd=mysql_password)
     cursor = mydb.cursor()
     cursor.execute(sql_queries)
@@ -93,14 +96,13 @@ def create_local_mysql_table():
 
 
 
-#create_tables_queries()
-#field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
-#change_field_type(field_names_types_pairs)
+
+create_tables_queries()
+field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
+change_field_type(field_names_types_pairs)
 fill_tables_queries()
-#add_indexes(["study_id", "ChromosomeNo", "GeneName", "pMut"])
-
-
-
+add_indexes(["study_id", "ChromosomeNo", "GeneName", "pMut"])
+queries_to_local_mysql_db()
 print("Done");
 
 
