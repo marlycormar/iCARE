@@ -37,7 +37,6 @@ def create_tables_queries():
 
 def fill_tables_queries():
     print("Starting: fill_tables_queries")
-    global sql_queries
     count = 0
     for file_name in os.listdir(directory):
         if file_name.endswith(".csv"): #and file_name.startswith("OtB"):
@@ -56,10 +55,13 @@ def fill_tables_queries():
             # insert each row
             for row in csv_data:
                 # writing as many %s as the number of columns
-                #print row
                 row = [file_name] + row     # maybe modify the csv file first?
                 row = [study_id] + row      # consider improving this method of prepending
-                sql_queries += str(("INSERT INTO %s (%s) VALUES (%s)" %(table_name, columns, format_strings), row))
+                f = open(sql_dump, 'a')
+                if count % 10000 == 0:
+                    print "%s records inserted" %count
+                f.write(str(("INSERT INTO %s (%s) VALUES (%s)" %(table_name, columns, format_strings), row)))
+                f.close();
                 count += 1
     print("Done: Queries added. %s records created" %count)
     print("==============================================")
@@ -103,7 +105,7 @@ def queries_to_local_mysql_db():
 create_tables_queries()
 #field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
 #change_field_type(field_names_types_pairs)
-#fill_tables_queries()
+fill_tables_queries()
 #add_indexes(["study_id", "ChromosomeNo", "GeneName", "pMut"])
 #queries_to_local_mysql_db()
 print("Done");
