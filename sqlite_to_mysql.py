@@ -98,4 +98,4 @@ def copy_data_to_mysql():
 dump_sqlite_data()
 remove_foreign_keys()
 add_key_length()
-copy_data_to_mysql()
+#copy_data_to_mysql()
