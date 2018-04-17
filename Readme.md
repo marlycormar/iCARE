@@ -60,10 +60,11 @@ The python script reads its configuration from the environment.  These variables
     export mysql_password=password
     export mysql_db=iCARE
     export directory_with_farsight_files=/Users/pbc/tmp
+    export sql_dump=/Users/marlycormar/git/iCARE/honeyguide/db/malignant.sql
 
 - Run the script by doing:
 
-        python2 create_and_populate_table.py
+        python2.7 create_and_populate_table.py
 
 ## Get data from REDCap
 
