@@ -10,12 +10,12 @@ mysql_db = os.environ['mysql_db']
 directory = os.environ['directory_with_farsight_files']
 table_name = 'farsight'
 
-# connecting to the database
+sql_queries = ""
 
-sql_queries = ''
+def create_tables_queries():
+    sql_queries = "CREATE DATABASE IF NOT EXISTS %s;\n" %mysql_db
 
-def create_table():
-    print("Starting: create_table")
+    print("Starting: create_tables_queries")
     column_names = ["`study_id`", "`file_name`"]
     for file_name in os.listdir(directory):
         if file_name.endswith(".csv"):
@@ -32,8 +32,9 @@ def create_table():
                         column_names.append("`" + column + "`")
 
     # TODO: the field Existing_variation is biggg, it needs more than VARCHAR(350).
-    create_table_query = """CREATE TABLE IF NOT EXISTS """ + table_name + " (" + " VARCHAR(250),".join(column_names) + " VARCHAR(250))"
-    print("Done: Table created")
+    sql_queries += """CREATE TABLE IF NOT EXISTS """ + table_name + " (" + " VARCHAR(250),".join(column_names) + " VARCHAR(250)); \n"
+    print("Done: Queries to insert tables created")
+    print(sql_queries)
     print("===================")
 
 def fill_table(table_name):
@@ -84,25 +85,20 @@ def change_field_type (table_name, field_names_types_pairs):
     print("=========================")
 
 
-def create_mysql_table():
+def create_local_mysql_table():
     mydb = MySQLdb.connect(host=mysql_host, user=mysql_user, db=mysql_db, passwd=mysql_password)
     cursor = mydb.cursor()
-
     cursor.execute(sql_queries)
-
-    # commit the the table changes to the db
     mydb.commit()
-
-    # close the connection to the database.
     cursor.close()
 
 
 
-create_table(table_name)
-field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
-change_field_type(table_name, field_names_types_pairs)
-fill_table(table_name)
-add_indexes(table_name, ["study_id", "ChromosomeNo", "GeneName", "pMut"])
+create_tables_queries()
+#field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
+#change_field_type(table_name, field_names_types_pairs)
+#fill_table(table_name)
+#add_indexes(table_name, ["study_id", "ChromosomeNo", "GeneName", "pMut"])
 
 
 
@@ -112,3 +108,7 @@ print("Done");
 ## todo: create method to undo changes if failure, and log failures
 ## skip files that fail
 ## with clear messages
+
+
+## todo:
+## add comments on create_local_mysql_table
