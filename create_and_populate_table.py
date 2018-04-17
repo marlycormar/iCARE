@@ -57,7 +57,7 @@ def fill_tables_queries():
                 # writing as many %s as the number of columns
                 row = [file_name] + row     # maybe modify the csv file first?
                 row = [study_id] + row      # consider improving this method of prepending
-                f = open(sql_dump, 'w')
+                f = open(sql_dump, 'a')
                 if count % 10000 == 0:
                     print "%s records inserted" %count
                 f.write(str(("INSERT INTO %s (%s) VALUES (%s)" %(table_name, columns, format_strings), row)))
@@ -69,7 +69,7 @@ def fill_tables_queries():
 
 def add_indexes(indexes):
     print("Starting: add_indexes")
-    f = open(sql_dump, 'w')
+    f = open(sql_dump, 'a')
 
     for field_name in indexes:
         f.write("CREATE INDEX %s ON %s (%s)" %(field_name, table_name, field_name))
@@ -81,7 +81,7 @@ def add_indexes(indexes):
 
 def change_field_type (field_names_types_pairs):
     print("Starting: change_field_type")
-    f = open(sql_dump, 'w')
+    f = open(sql_dump, 'a')
 
     for pair in field_names_types_pairs:
         f.write("ALTER TABLE %s MODIFY %s %s" %(table_name, pair[0], pair[1]))
@@ -93,6 +93,7 @@ def change_field_type (field_names_types_pairs):
 
 
 def queries_to_local_mysql_db():
+    print "Starting: queries_to_local_mysql_db"
     mysql_host = os.environ['mysql_host']
     mysql_user = os.environ['mysql_user']
     mysql_password = os.environ['mysql_password']
@@ -104,21 +105,15 @@ def queries_to_local_mysql_db():
 
     mydb.commit()
     cursor.close()
+    print "Done: Data saved to local mysql db."
+    print("===================")
+
 
 
 create_tables_queries()
-print("to mysql")
-queries_to_local_mysql_db()
-print("end to mysql")
-print("==========")
-
 field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
 change_field_type(field_names_types_pairs)
-queries_to_local_mysql_db()
-
 fill_tables_queries()
-queries_to_local_mysql_db()
-
 add_indexes(["study_id", "ChromosomeNo", "GeneName", "pMut"])
 queries_to_local_mysql_db()
 print("Done");
