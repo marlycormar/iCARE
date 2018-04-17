@@ -43,11 +43,6 @@ and run `aws-shell` again.
     aws s3 sync s3://fgs-ufh-farsight-results .
 
 
-## Create database if needed
-
-    echo "CREATE DATABASE iCARE;" | mysql -u root
-
-
 ## Convert amazon bucket tabular data into a mysql db
 
 Use a python script.
