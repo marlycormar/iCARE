@@ -69,45 +69,49 @@ def fill_tables_queries():
 
 def add_indexes(indexes):
     print("Starting: add_indexes")
-    global sql_queries
+    f = open(sql_dump, 'a')
 
     for field_name in indexes:
-        sql_queries += "CREATE INDEX %s ON %s (%s)" %(field_name, table_name, field_name)
+        f.write("CREATE INDEX %s ON %s (%s)" %(field_name, table_name, field_name))
+
+    f.close();
 
     print("Done: Indexes added")
     print("===================")
 
 def change_field_type (field_names_types_pairs):
     print("Starting: change_field_type")
-    global sql_queries
+    f = open(sql_dump, 'a')
 
     for pair in field_names_types_pairs:
-        sql_queries += "ALTER TABLE %s MODIFY %s %s" %(table_name, pair[0], pair[1])
+        f.write("ALTER TABLE %s MODIFY %s %s" %(table_name, pair[0], pair[1]))
+
+    f.close();
 
     print("Done: Field types updated")
     print("=========================")
 
 
 def queries_to_local_mysql_db():
-    global sql_queries
     mysql_host = os.environ['mysql_host']
     mysql_user = os.environ['mysql_user']
     mysql_password = os.environ['mysql_password']
-    mydb = MySQLdb.connect(host=mysql_host, user=mysql_user, db=mysql_db, passwd=mysql_password)
+    mydb = MySQLdb.connect(host=mysql_host, user=mysql_user, passwd=mysql_password)
     cursor = mydb.cursor()
-    cursor.execute(sql_queries)
+
+    for line in open(sql_dump):
+        cursor.execute(line)
+
     mydb.commit()
     cursor.close()
 
 
-
-
-create_tables_queries()
+#create_tables_queries()
 #field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
 #change_field_type(field_names_types_pairs)
-fill_tables_queries()
+#fill_tables_queries()
 #add_indexes(["study_id", "ChromosomeNo", "GeneName", "pMut"])
-#queries_to_local_mysql_db()
+queries_to_local_mysql_db()
 print("Done");
 
 
