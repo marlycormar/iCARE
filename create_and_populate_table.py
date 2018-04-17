@@ -35,6 +35,7 @@ def create_tables_queries():
     print("Done: Queries to insert tables created")
     print("===================")
 
+
 def fill_tables_queries():
     print("Starting: fill_tables_queries")
     count = 0
@@ -79,6 +80,7 @@ def add_indexes(indexes):
     print("Done: Indexes added")
     print("===================")
 
+
 def change_field_type (field_names_types_pairs):
     print("Starting: change_field_type")
     f = open(sql_dump, 'a')
@@ -115,7 +117,7 @@ field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
 change_field_type(field_names_types_pairs)
 fill_tables_queries()
 add_indexes(["study_id", "ChromosomeNo", "GeneName", "pMut"])
-queries_to_local_mysql_db()
+#queries_to_local_mysql_db()
 print("Done");
 
 
@@ -123,7 +125,3 @@ print("Done");
 ## skip files that fail
 ## with clear messages
 
-
-## todo:
-## add comments on create_local_mysql_table
-## remove paraenthesis in the print stemetns
