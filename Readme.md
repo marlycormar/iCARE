@@ -94,7 +94,9 @@ Note: Quail requires Python3.
 
 - To run QUAIL:
 
+        export directory_for_redcap_data=`mktemp -d`
         quail install $directory_for_redcap_data
+        export OLDDIR=`pwd`
         cd $directory_for_redcap_data
         quail redcap generate quail.conf.yaml "Malignant" 78JNMKDR346hhKJbj85DE4 http://redcap.test/redcap/api/
         quail redcap get_meta "Malignant"
@@ -102,51 +104,27 @@ Note: Quail requires Python3.
         quail redcap gen_meta "Malignant"
         quail redcap gen_data "Malignant"
         quail redcap make_import_files "Malignant"
+        export TODAYS_DATE=`date +%Y-%m-%d`
+        cd $OLDDIR
 
 - This will save the information for the REDCap project into a sqlite database in the directory `$directory_for_redcap_data/batches/Malignant/2018-03-19/data.db` were `2018-03-19` represents the current date.
 
-- To dump the sqlite database:
 
-        sqlite3
-        .open $directory_for_redcap_data/batches/Malignant/2018-03-19/data.db
-        .output sqlite_dump.sql
-        .dump
-        .exit
-
-## Convert sqlite db to postgres db
-
-- Create `malignant` database:
-
-        echo 'CREATE DATABASE malignant;' | psql postgres
-
-- Convert sqlite db to postgress db:
-
-        pgloader $directory_for_redcap_data/batches/Malignant/2018-03-19/data.db postgresql:///malignant
-
-- Check that the convertion was succesfull:
-
-        psql postgres
-        \c malignant -- Change database to malignant
-        \dt -- Show tables
-
-
-## Conver sqlite db into mysql db
+## Convert sqlite db into mysql db
 
 - The python script reads its configuration from the environment.  These variables are required:
 
-        export mysql_user=root
-        export mysql_password=password
-        export mysql_db=icare
-        export path_to_sqlitedb=/Users/marlycormar/git/iCARE/main/dumps/data.db
-        export path_to_mysql_dump=/Users/marlycormar/git/honeyguide/db/malignant.sql
-
-To streamline your process path_to_mysql_dump should be the honeyguide db folder.  e.g.
-
-    ./git/honeyguide/db/malignant.sql
+    export mysql_db=icare
+    export path_to_sqlitedb=$directory_for_redcap_data/batches/Malignant/$TODAYS_DATE/data.db
+    export path_to_mysql_dump=~/git/honeyguide/db/malignant.sql
 
 - Run script:
 
-        python sqlite_to_mysql.py
+    python sqlite_to_mysql.py
+
+    # Erase the SQLite inputs
+    rm -rf $directory_for_redcap_data
+
 
 
 ## Using honeyguide
