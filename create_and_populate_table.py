@@ -61,8 +61,8 @@ def fill_tables_queries():
                 f = open(sql_dump, 'a')
                 if count % 10000 == 0:
                     print "%s records inserted" %count
-                f.write(str(("INSERT INTO %s (%s) VALUES (%s);\n" %(table_name, columns, format_strings), row)))
-                f.close();
+                f.write(str("INSERT INTO %s (%s) VALUES %s;\n" %(table_name, columns, tuple(row))))
+                f.close()
                 count += 1
     print("Done: Queries added. %s records created" %count)
     print("==============================================")
