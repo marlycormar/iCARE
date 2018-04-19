@@ -63,7 +63,6 @@ def _backticks(line, in_string):
 def _process(opts, lines):
     if opts.database:
         yield '''\
-drop database IF EXISTS {d};
 create database {d} character set utf8;
 use {d};\n'''.format(d=opts.database, u=opts.username, p=opts.password)
     yield "SET sql_mode='NO_BACKSLASH_ESCAPES';\n"
