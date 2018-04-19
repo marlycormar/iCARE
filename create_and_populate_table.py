@@ -30,7 +30,7 @@ def create_tables_queries():
     f = open(sql_dump, 'w')
     f.write("CREATE DATABASE IF NOT EXISTS %s;\n" %mysql_db)
     f.write("USE %s;\n" %mysql_db)
-    f.write("CREATE TABLE IF NOT EXISTS " + table_name + " (" + " VARCHAR(250),".join(column_names) + " VARCHAR(250)); \n")
+    f.write("CREATE TABLE IF NOT EXISTS " + table_name + " (" + " VARCHAR(250),".join(column_names) + " VARCHAR(250));\n")
     f.close();
     print("Done: Queries to insert tables created")
     print("===================")
@@ -61,7 +61,7 @@ def fill_tables_queries():
                 f = open(sql_dump, 'a')
                 if count % 10000 == 0:
                     print "%s records inserted" %count
-                f.write(str(("INSERT INTO %s (%s) VALUES (%s)" %(table_name, columns, format_strings), row)))
+                f.write(str(("INSERT INTO %s (%s) VALUES (%s);\n" %(table_name, columns, format_strings), row)))
                 f.close();
                 count += 1
     print("Done: Queries added. %s records created" %count)
