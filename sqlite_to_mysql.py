@@ -4,15 +4,13 @@ import itertools
 # read configuration from environment
 path_to_sqlitedb = os.environ['path_to_sqlitedb']
 path_to_mysql_dump = os.environ['path_to_mysql_dump']
-mysql_user = os.environ['mysql_user']
-mysql_password = os.environ['mysql_password']
 mysql_db = os.environ['mysql_db']
 
 def dump_sqlite_data():
     print("Starting: dump_sqlite_data")
 
     try:
-        os.system("sqlite3 %s .dump | python cleaning_mysql_dump.py -d malignant > %s" %(path_to_sqlitedb, path_to_mysql_dump))
+        os.system("sqlite3 %s .dump | python cleaning_mysql_dump.py -d %s > %s" %(path_to_sqlitedb, mysql_db, path_to_mysql_dump))
     except Exception as e:
         print("The function dump_sqlite_data failed. See error:\n")
         raise
@@ -84,6 +82,8 @@ def add_key_length():
 
 def copy_data_to_mysql():
     print("Starting: copy_data_to_mysql")
+    mysql_user = os.environ['mysql_user']
+    mysql_password = os.environ['mysql_password']
 
     try:
         os.system("mysql -u %s -p%s %s < %s" %(mysql_user, mysql_password, mysql_db, path_to_mysql_dump))
