@@ -55,12 +55,9 @@ Use a python script.
 
 The python script reads its configuration from the environment.  These variables are required:
 
-    export mysql_host=localhost
-    export mysql_user=root
-    export mysql_password=password
-    export mysql_db=iCARE
+    export mysql_db=icare
     export directory_with_farsight_files=/Users/pbc/tmp
-    export sql_dump=/Users/marlycormar/git/iCARE/honeyguide/db/malignant.sql
+    export sql_dump=../honeyguide/db/farsight.sql
 
 - Run the script by doing:
 
@@ -139,7 +136,7 @@ Note: Quail requires Python3.
 
         export mysql_user=root
         export mysql_password=password
-        export mysql_db=malignant
+        export mysql_db=icare
         export path_to_sqlitedb=/Users/marlycormar/git/iCARE/main/dumps/data.db
         export path_to_mysql_dump=/Users/marlycormar/git/honeyguide/db/malignant.sql
 
@@ -184,6 +181,4 @@ To streamline your process path_to_mysql_dump should be the honeyguide db folder
         Password: password
         Database Name: redash
 
-Notice that both the `malignant` and the `iCare` databases will be already on the docker mysql instance.
-
-
+Notice that both the `malignant` and the `farsight` data sources will be loaded into the `icare` database in docker mysql instance.
