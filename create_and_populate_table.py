@@ -75,7 +75,7 @@ def add_indexes(indexes):
 
     for field_name in indexes:
         if f_read.find(field_name):
-            f.write("CREATE INDEX %s ON %s (%s)" %(field_name, table_name, field_name))
+            f.write("CREATE INDEX %s ON %s (%s);\n" %(field_name, table_name, field_name))
 
     f.close()
 
@@ -90,7 +90,7 @@ def change_field_type (field_names_types_pairs):
 
     for pair in field_names_types_pairs:
         if f_read.find(pair[0]):
-            f.write("ALTER TABLE %s MODIFY %s %s" %(table_name, pair[0], pair[1]))
+            f.write("ALTER TABLE %s MODIFY %s %s;\n" %(table_name, pair[0], pair[1]))
 
     f.close()
 
@@ -119,7 +119,7 @@ def queries_to_local_mysql_db():
 create_tables_queries()
 field_names_types_pairs = [("`existing_variation`", "VARCHAR(500)")]
 change_field_type(field_names_types_pairs)
-#fill_tables_queries()
+fill_tables_queries()
 add_indexes(["`study_id`", "`chromosomeno`", "`genename`", "`pmut`"])
 #queries_to_local_mysql_db()
 print("Done");
