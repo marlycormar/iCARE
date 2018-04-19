@@ -40,7 +40,7 @@ def fill_tables_queries():
     print("Starting: fill_tables_queries")
     count = 0
     for file_name in os.listdir(directory):
-        if file_name.endswith(".csv"): #and file_name.startswith("OtB"):
+        if file_name.endswith(".csv") and file_name.startswith("UFH"):
             #print(file_name)
             study_id = file_name.split('_')
             study_id = study_id[0] + '_' + study_id[1]
@@ -71,11 +71,13 @@ def fill_tables_queries():
 def add_indexes(indexes):
     print("Starting: add_indexes")
     f = open(sql_dump, 'a')
+    f_read = open(sql_dump, 'r').read()
 
     for field_name in indexes:
-        f.write("CREATE INDEX %s ON %s (%s)" %(field_name, table_name, field_name))
+        if f_read.find(field_name):
+            f.write("CREATE INDEX %s ON %s (%s)" %(field_name, table_name, field_name))
 
-    f.close();
+    f.close()
 
     print("Done: Indexes added")
     print("===================")
@@ -84,11 +86,13 @@ def add_indexes(indexes):
 def change_field_type (field_names_types_pairs):
     print("Starting: change_field_type")
     f = open(sql_dump, 'a')
+    f_read = open(sql_dump, 'r').read()
 
     for pair in field_names_types_pairs:
-        f.write("ALTER TABLE %s MODIFY %s %s" %(table_name, pair[0], pair[1]))
+        if f_read.find(pair[0]):
+            f.write("ALTER TABLE %s MODIFY %s %s" %(table_name, pair[0], pair[1]))
 
-    f.close();
+    f.close()
 
     print("Done: Field types updated")
     print("=========================")
@@ -113,10 +117,10 @@ def queries_to_local_mysql_db():
 
 
 create_tables_queries()
-field_names_types_pairs = [("`Existing_variation`", "VARCHAR(500)")]
+field_names_types_pairs = [("`existing_variation`", "VARCHAR(500)")]
 change_field_type(field_names_types_pairs)
-fill_tables_queries()
-add_indexes(["study_id", "ChromosomeNo", "GeneName", "pMut"])
+#fill_tables_queries()
+add_indexes(["`study_id`", "`chromosomeno`", "`genename`", "`pmut`"])
 #queries_to_local_mysql_db()
 print("Done");
 
