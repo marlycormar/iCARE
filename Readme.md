@@ -114,33 +114,31 @@ Note: Quail requires Python3.
 
 - The python script reads its configuration from the environment.  These variables are required:
 
-    export mysql_db=icare
-    export path_to_sqlitedb=$directory_for_redcap_data/batches/Malignant/$TODAYS_DATE/data.db
-    export path_to_mysql_dump=~/git/honeyguide/db/malignant.sql
+        export mysql_db=icare
+        export path_to_sqlitedb=$directory_for_redcap_data/batches/Malignant/$TODAYS_DATE/data.db
+        export path_to_mysql_dump=~/git/honeyguide/db/malignant.sql
 
 - Run script:
 
-    python sqlite_to_mysql.py
+        python sqlite_to_mysql.py
 
-    # Erase the SQLite inputs
-    rm -rf $directory_for_redcap_data
-
+- Erase the SQLite inputs
+    
+        rm -rf $directory_for_redcap_data
 
 
 ## Using honeyguide
 
 - Go to https://github.com/marlycormar/honeyguide/tree/mysql, clone the repo locally, and checkout the mysql branch.
 
-    git clone git@github.com:marlycormar/honeyguide.git
-    cd honeyguide
-    git checkout mysql
+        git clone git@github.com:marlycormar/honeyguide.git
+        cd honeyguide
+        git checkout mysql
 
 - Configure Honeyguide to load our data into a MySQL DB. Use fake.env as a template.  Copy it to ".env" and customize as needed.
 
-    cp fake.env .env
-    # edit .env
-
-- Run
+        cp fake.env .env
+        # edit .env
 
 - Build and start honeyguide
 
