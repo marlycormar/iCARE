@@ -71,8 +71,8 @@ Note: Quail requires Python3.
 
 - Install QUAIL's prerequisites
 
-    git clone git@github.com:ctsit/cappy.git
-    pip install -e cappy
+        git clone git@github.com:ctsit/cappy.git
+        pip install -e cappy
 
 - Install QUAIL as a python module by first cloning it in a local directory:
 
